@@ -14,10 +14,10 @@ export default function App() {
   });
 
   return (
-    <NativeBaseProvider theme={THEME}>
+    <NativeBaseProvider theme={THEME} isSSR={false}>
       <StatusBar barStyle="light-content" backgroundColor="#202024" />
 
-      {!fontsLoaded ? <SignIn /> : <Loading />}
+      {fontsLoaded ? <SignIn /> : <Loading />}
       
     </NativeBaseProvider>
   );
