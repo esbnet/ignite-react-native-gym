@@ -1,11 +1,12 @@
 import { Loading } from "@/components/Loading";
-import SignUp from "@/screens/SignUp";
 import { Roboto_400Regular, Roboto_700Bold } from "@expo-google-fonts/roboto";
 import { useFonts } from "expo-font";
 import { NativeBaseProvider } from "native-base";
 import React from "react";
 import { StatusBar } from "react-native";
 import { THEME } from "./src/theme";
+
+import { Routes } from "./src/routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,7 +18,7 @@ export default function App() {
     <NativeBaseProvider theme={THEME} isSSR={false}>
       <StatusBar barStyle="light-content" backgroundColor="#202024" />
 
-      {fontsLoaded ? <SignUp /> : <Loading />}
+      {fontsLoaded ? <Routes /> : <Loading />}
       
     </NativeBaseProvider>
   );
