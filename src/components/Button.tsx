@@ -3,19 +3,26 @@ import React from "react";
 
 type ButtonProps = IButtonProps & {
   title: string;
+  variant?: "solid" | "outline";
 };
 
-export function Button({ title, ...props }: ButtonProps) {
+export function Button({ title, variant = "solid", ...props }: ButtonProps) {
   return (
     <NativeBaseButton
       w={"full"}
       h={14}
       rounded="sm"
-      bg="green.700"
-      _pressed={ { bg: "green.500" }}
+      bg={variant === "outline" ? "transparent" : "green.700"}
+      borderWidth={variant === "outline" ? 1 : 0}
+      borderColor="green.500"
+      _pressed={{ bg: variant === "outline" ? "gray.500" : "green.500" }}
       {...props}
     >
-      <Text fontSize="sm" fontFamily="heading" color="white">
+      <Text
+        fontSize="sm"
+        fontFamily="heading"
+        color={variant === "outline" ? "green.500" : "white"}
+      >
         {title}
       </Text>
     </NativeBaseButton>
