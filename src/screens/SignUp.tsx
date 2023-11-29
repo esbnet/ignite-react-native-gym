@@ -36,23 +36,21 @@ export default function SignIn() {
           </Center>
           <Center>
             <Heading fontFamily="heading" color="gray.100" fontSize="xl" mb={6}>
-              Acesse sua conta
+              Criar sua conta
             </Heading>
 
+            <Input placeholder="Nome" />
             <Input
               placeholder="E-mail"
               autoCapitalize="none"
               keyboardType="email-address"
             />
             <Input placeholder="Senha" secureTextEntry autoCapitalize="none" />
-            <Button title="Acessar" />
+            <Button title="Criar e acessar" />
           </Center>
 
           <Center mt={24}>
-            <Text color="gray.100" mb={3} fontFamily={"body"}>
-              Ainda não tem acesso?
-            </Text>
-            <Button title="Criar conta" variant={"outline"} />
+            <Button title="Voltar para o login" variant={"outline"} />
           </Center>
         </VStack>
       </ScrollView>

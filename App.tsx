@@ -1,5 +1,5 @@
 import { Loading } from "@/components/Loading";
-import SignIn from "@/screens/SignIn";
+import SignUp from "@/screens/SignUp";
 import { Roboto_400Regular, Roboto_700Bold } from "@expo-google-fonts/roboto";
 import { useFonts } from "expo-font";
 import { NativeBaseProvider } from "native-base";
@@ -17,7 +17,7 @@ export default function App() {
     <NativeBaseProvider theme={THEME} isSSR={false}>
       <StatusBar barStyle="light-content" backgroundColor="#202024" />
 
-      {fontsLoaded ? <SignIn /> : <Loading />}
+      {fontsLoaded ? <SignUp /> : <Loading />}
       
     </NativeBaseProvider>
   );
