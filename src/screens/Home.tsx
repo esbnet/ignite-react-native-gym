@@ -13,6 +13,38 @@ export function Home() {
     { name: "treíceps", isMember: true },
     { name: "outros", isMember: true },
   ]);
+  const [exercises, setExercises] = useState([
+    {
+      name: "Remada unilateral",
+      series: 3,
+      repetitions: 12,
+    },
+    {
+      name: "Remada curvada",
+      series: 5,
+      repetitions: 15,
+    },
+    {
+      name: "Remada biceps",
+      series: 10,
+      repetitions: 20,
+    },
+    {
+      name: "Remada triceps",
+      series: 3,
+      repetitions: 12,
+    },
+    {
+      name: "Cadeira extensora",
+      series: 3,
+      repetitions: 12,
+    },
+    {
+      name: "Cadeira flexora",
+      series: 3,
+      repetitions: 12,
+    },
+  ]);
 
   return (
     <VStack flex={1}>
@@ -24,7 +56,10 @@ export function Home() {
         renderItem={({ item }) => (
           <Group
             name={item.name}
-            isActive={groupSelected === item.name}
+            isActive={
+              groupSelected.toLocaleUpperCase() ===
+              item.name.toLocaleUpperCase()
+            }
             onPress={() => setGroupSelected(item.name)}
           />
         )}
@@ -41,12 +76,29 @@ export function Home() {
             Exercícios
           </Heading>
           <Text color="gray.200" fontSize="sm">
-            {groups.length}
+            {exercises.length}
           </Text>
         </HStack>
 
-        <ExcerciseCard />
-        <ExcerciseCard />
+        <FlatList
+          data={exercises}
+          keyExtractor={(item) => item.name}
+          renderItem={({ item }) => (
+            <ExcerciseCard
+              name={item.name}
+              series={item.series}
+              repetitions={item.repetitions}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          _contentContainerStyle={{ pb: 10 }}
+          ListEmptyComponent={() => (
+            <Text color="gray.200" fontSize="lg">
+              Não há exercícios registrados ainda. {"\n"}
+              Vamos fazer exercícios hoje?
+            </Text>
+          )}
+        />
       </VStack>
     </VStack>
   );

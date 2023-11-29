@@ -13,7 +13,7 @@ export function HomeHeader() {
       />
       <VStack flex={1} alignItems="center" justifyContent="center">
         <Heading color="gray.100" fontSize="lg" fontFamily="heading">
-          {`Welcome, ${"Rodrigo"}!`}
+          {`Bem vindo, ${"Edmilson"}!`}
         </Heading>
         <Text color="gray.200" fontSize="sm">
           {`Get fit and healthy with us!`}
