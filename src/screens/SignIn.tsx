@@ -1,10 +1,11 @@
-import { Center, Heading, Image, Text, VStack } from "@gluestack-ui/themed";
+import { Center, Heading, Image, Text, VStack } from "native-base";
 import BackgroundImage from "../assets/background.png";
 
+import { Input } from "@/components/Input";
 import LogoSvg from "../assets/logo.svg";
 export default function SignIn() {
   return (
-    <VStack flex={1} bg="$gray700">
+    <VStack flex={1} >
       <Image
         source={BackgroundImage}
         alt="Pessoas andando em uma bicicleta ergonomica"
@@ -16,15 +17,16 @@ export default function SignIn() {
       <Center my={24}>
         <LogoSvg />
 
-        <Text color="$gray100" fontSize="$sm">
-          {" "}
+        <Text>
           Treine sua mente e o seu corpo
         </Text>
       </Center>
       <Center>
-        <Heading color="$gray100" fontSize="$xl" mb={6} fontFamily="heading">
+        <Heading  fontFamily="heading">
           Acesse sua conta
         </Heading>
+
+        <Input />
       </Center>
     </VStack>
   );
