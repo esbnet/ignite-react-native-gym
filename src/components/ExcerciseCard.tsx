@@ -1,5 +1,5 @@
 import { Entypo } from "@expo/vector-icons";
-import { HStack, Heading, Icon, Image, Text, VStack, } from "native-base";
+import { HStack, Heading, Icon, Image, Text, VStack } from "native-base";
 import React from "react";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 type ExerciseCardProps = TouchableOpacityProps & {};
