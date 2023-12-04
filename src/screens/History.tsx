@@ -8,7 +8,7 @@ export function History() {
   const [exercises, setExercises] = useState([
     {
       title: "26.08.22",
-      data: ["Puxada frontal", "Remada unilateral"],
+      data: ["Puxada frontal sdfa sdfasdfa sdfsadfsdafsda fsdafsda fsda f", "Remada unilateral"],
     },
     {
       title: "27.08.22",

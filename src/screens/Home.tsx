@@ -8,6 +8,7 @@ import { useState } from "react";
 
 export function Home() {
   const [groupSelected, setGroupSelected] = useState("costa");
+
   const [groups, setGroups] = useState([
     { name: "costa", isMember: true },
     { name: "ombro", isMember: true },
@@ -15,9 +16,10 @@ export function Home() {
     { name: "treíceps", isMember: true },
     { name: "outros", isMember: true },
   ]);
+
   const [exercises, setExercises] = useState([
     {
-      name: "Remada unilateral",
+      name: "Remada unilateral asdf asdfas dfsa fsdaf sdafsda fsda fsdf sd",
       series: 3,
       repetitions: 12,
     },
@@ -76,6 +78,8 @@ export function Home() {
         _contentContainerStyle={{ px: 6 }}
         my={8}
         maxHeight={10}
+        minHeight={10}
+
       />
 
       <VStack flex={1} px={6}>
