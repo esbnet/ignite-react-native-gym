@@ -7,8 +7,8 @@ type UserPhotoProps = IImageProps & {
 export function UserPhoto({ size, ...props }: UserPhotoProps) {
   return (
     <Image
+      size={size}
       alt="Imagem do Usuário"
-      size="md"
       borderRadius="full"
       overflow="hidden"
       {...props}
