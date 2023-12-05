@@ -1,9 +1,11 @@
 import LogoSvg from "@/assets/logo.svg";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from "@react-navigation/native";
 import { Center, Heading, Image, ScrollView, Text, VStack } from "native-base";
 import { Controller, useForm } from "react-hook-form";
+import * as yup from "yup";
 import BackgroundImage from "../assets/background.png";
 
 type SignUpFormProps = {
@@ -13,18 +15,29 @@ type SignUpFormProps = {
   confirmPassword: string;
 };
 
+const signUpSchema = yup.object({
+  name: yup.string().required("O nome e obrigatorio"),
+  email: yup.string().email("Email invalido").required("O email e obrigatorio"),
+  password: yup
+    .string()
+    .min(6, "A senha deve ter pelo menos 6 digitos")
+    .max(12, "A senha deve ter no maximo 12 digitos")
+    .required("A senha e obrigatorio"),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("password"), ''], "As senhas devem ser iguais")
+    .required("A confirmacao da senha e obrigatorio"),
+});
+
+type FormData = yup.InferType<typeof signUpSchema>;
+
 export default function SignUp() {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignUpFormProps>({
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
+  } = useForm<FormData>({
+    resolver: yupResolver(signUpSchema),
   });
 
   const navigation = useNavigation();
@@ -33,12 +46,7 @@ export default function SignUp() {
     navigation.goBack();
   }
 
-  function handleSignUp({
-    name,
-    email,
-    password,
-    confirmPassword,
-  }: SignUpFormProps) {
+  function handleSignUp({ name, email, password, confirmPassword }: FormData) {
     console.log({ name, email, password, confirmPassword });
   }
 
@@ -73,7 +81,6 @@ export default function SignUp() {
           <Controller
             control={control}
             name="name"
-            rules={{ required: "Nome obrigatório" }}
             render={({ field: { onChange, value } }) => (
               <Input
                 placeholder="Nome"
@@ -87,13 +94,6 @@ export default function SignUp() {
           <Controller
             control={control}
             name="email"
-            rules={{
-              required: "E-mail obrigatório",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "E-mail inválido",
-              },
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 placeholder="E-mail"
@@ -109,13 +109,6 @@ export default function SignUp() {
           <Controller
             control={control}
             name="password"
-            rules={{
-              required: "E-mail obrigatório",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Mínimo de 6 caracteres, com letras e números",
-              },
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 placeholder="Senha"
