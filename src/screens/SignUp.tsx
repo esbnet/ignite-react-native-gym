@@ -25,7 +25,7 @@ const signUpSchema = yup.object({
     .required("A senha e obrigatorio"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), ''], "As senhas devem ser iguais")
+    .oneOf([yup.ref("password"), ""], "As senhas devem ser iguais")
     .required("A confirmacao da senha e obrigatorio"),
 });
 
@@ -36,7 +36,7 @@ export default function SignUp() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<SignUpFormProps>({
     resolver: yupResolver(signUpSchema),
   });
 
@@ -46,7 +46,12 @@ export default function SignUp() {
     navigation.goBack();
   }
 
-  function handleSignUp({ name, email, password, confirmPassword }: FormData) {
+  function handleSignUp({
+    name,
+    email,
+    password,
+    confirmPassword,
+  }: SignUpFormProps) {
     console.log({ name, email, password, confirmPassword });
   }
 
@@ -144,13 +149,12 @@ export default function SignUp() {
           />
         </Center>
 
-        <Center mt={24}>
-          <Button
-            title="Voltar para o login"
-            variant={"outline"}
-            onPress={handleGoBack}
-          />
-        </Center>
+        <Button
+          title="Voltar para o login"
+          variant={"outline"}
+          mt={12}
+          onPress={handleGoBack}
+        />
       </VStack>
     </ScrollView>
   );
