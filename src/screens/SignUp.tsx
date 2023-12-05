@@ -13,7 +13,6 @@ type SignUpFormProps = {
   confirmPassword: string;
 };
 
-
 export default function SignUp() {
   const {
     control,
@@ -34,8 +33,13 @@ export default function SignUp() {
     navigation.goBack();
   }
 
-  function handleSignUp({ name, email, password, confirmPassword }: SignUpFormProps) {
-    console.log(name, email, password, confirmPassword);
+  function handleSignUp({
+    name,
+    email,
+    password,
+    confirmPassword,
+  }: SignUpFormProps) {
+    console.log({ name, email, password, confirmPassword });
   }
 
   return (
@@ -69,14 +73,27 @@ export default function SignUp() {
           <Controller
             control={control}
             name="name"
+            rules={{ required: "Nome obrigatório" }}
             render={({ field: { onChange, value } }) => (
-              <Input placeholder="Nome" onChangeText={onChange} value={value} />
+              <Input
+                placeholder="Nome"
+                onChangeText={onChange}
+                value={value}
+                errorMessage={errors.name?.message}
+              />
             )}
           />
 
           <Controller
             control={control}
             name="email"
+            rules={{
+              required: "E-mail obrigatório",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "E-mail inválido",
+              },
+            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 placeholder="E-mail"
@@ -84,6 +101,7 @@ export default function SignUp() {
                 keyboardType="email-address"
                 onChangeText={onChange}
                 value={value}
+                errorMessage={errors.email?.message}
               />
             )}
           />
@@ -91,6 +109,13 @@ export default function SignUp() {
           <Controller
             control={control}
             name="password"
+            rules={{
+              required: "E-mail obrigatório",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Mínimo de 6 caracteres, com letras e números",
+              },
+            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 placeholder="Senha"
@@ -98,6 +123,7 @@ export default function SignUp() {
                 autoCapitalize="none"
                 onChangeText={onChange}
                 value={value}
+                errorMessage={errors.password?.message}
               />
             )}
           />
@@ -114,6 +140,7 @@ export default function SignUp() {
                 value={value}
                 onSubmitEditing={handleSubmit(handleSignUp)}
                 returnKeyType="send"
+                errorMessage={errors.confirmPassword?.message}
               />
             )}
           />
