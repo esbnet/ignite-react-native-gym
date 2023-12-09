@@ -1,9 +1,15 @@
+import { useAuth } from "@/hooks/useAuth";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Heading, HStack, Icon, Text, VStack } from "native-base";
 import { TouchableOpacity } from "react-native";
 import { UserPhoto } from "./UserPhoto";
 
 export function HomeHeader() {
+  const { signOut } = useAuth();
+  function handleLogout() {
+    signOut();    
+  }
+
   return (
     <HStack bg="gray.600" pt={16} pb={5} px={8} alignItems="center">
       <UserPhoto
@@ -25,7 +31,7 @@ export function HomeHeader() {
           name="logout"
           color="gray.200"
           size={7}
-          onPress={() => { alert("Logout"); }}
+          onPress={handleLogout}
         />
       </TouchableOpacity>
     </HStack>
