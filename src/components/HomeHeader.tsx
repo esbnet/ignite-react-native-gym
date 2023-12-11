@@ -7,11 +7,7 @@ import { UserPhoto } from "./UserPhoto";
 import avatarImg from "@/assets/userPhotoDefault.png";
 
 export function HomeHeader() {
-  const { user } = useAuth();
-  const { signOut } = useAuth();
-  function handleLogout() {
-    signOut();
-  }
+  const { user, signOut } = useAuth();
 
   return (
     <HStack bg="gray.600" pt={16} pb={5} px={8} alignItems="center">
@@ -34,7 +30,7 @@ export function HomeHeader() {
           name="logout"
           color="gray.200"
           size={7}
-          onPress={handleLogout}
+          onPress={signOut}
         />
       </TouchableOpacity>
     </HStack>
