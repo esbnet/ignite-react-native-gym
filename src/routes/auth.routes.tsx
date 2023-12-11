@@ -1,3 +1,4 @@
+import { Home } from "@/screens/Home";
 import SignIn from "@/screens/SignIn";
 import SignUp from "@/screens/SignUp";
 import {
@@ -8,6 +9,7 @@ import {
 type AuthRoutesProps = {
   SignIn: undefined;
   SignUp: undefined;
+  Home: undefined;
 };
 
 export type AuthNavigatorRoutesProps =
@@ -20,6 +22,7 @@ export function AuthRoutes() {
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="SignIn" component={SignIn} />
       <Screen name="SignUp" component={SignUp} />
+      <Screen name="Home" component={Home} />
     </Navigator>
   );
 }

@@ -14,6 +14,7 @@ import {
   VStack,
   useToast,
 } from "native-base";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import BackgroundImage from "../assets/background.png";
 
@@ -23,6 +24,8 @@ type FormData = {
 };
 
 export default function SignIn() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const { signIn } = useAuth();
   const { navigate } = useNavigation<AuthNavigatorRoutesProps>();
   const toast = useToast();
@@ -39,7 +42,9 @@ export default function SignIn() {
 
   async function handleSignIn({ email, password }: FormData) {
     try {
+      setIsLoading(true);
       await signIn(email, password);
+      navigate("Home", );
     } catch (error) {
       const isAppError = error instanceof AppError;
 
@@ -52,6 +57,7 @@ export default function SignIn() {
         placement: "top",
         bgColor: "red.500",
       });
+      setIsLoading(false);
     }
   }
 
@@ -119,7 +125,11 @@ export default function SignIn() {
               />
             )}
           />
-          <Button title="Acessar" onPress={handleSubmit(handleSignIn)} />
+          <Button
+            title="Acessar"
+            onPress={handleSubmit(handleSignIn)}
+            isLoading={isLoading}
+          />
         </Center>
 
         <Center mt={24}>
@@ -130,7 +140,6 @@ export default function SignIn() {
             title="Criar conta"
             variant={"outline"}
             onPress={handleNewAccount}
-            
           />
         </Center>
       </VStack>

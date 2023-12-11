@@ -4,10 +4,13 @@ import { Heading, HStack, Icon, Text, VStack } from "native-base";
 import { TouchableOpacity } from "react-native";
 import { UserPhoto } from "./UserPhoto";
 
+import avatarImg from "@/assets/userPhotoDefault.png";
+
 export function HomeHeader() {
+  const { user } = useAuth();
   const { signOut } = useAuth();
   function handleLogout() {
-    signOut();    
+    signOut();
   }
 
   return (
@@ -15,14 +18,14 @@ export function HomeHeader() {
       <UserPhoto
         size={16}
         mr={4}
-        source={{ uri: "https://github.com/esbnet.png" }}
+        source={user.avatar ? { uri: user.avatar } : avatarImg}
       />
       <VStack flex={1} alignItems="center" justifyContent="center">
         <Heading color="gray.100" fontSize="lg" fontFamily="heading">
-          {`Bem vindo, ${"Edmilson"}!`}
+          {`Bem vindo, ${user.name}!`}
         </Heading>
         <Text color="gray.200" fontSize="sm">
-          {`Get fit and healthy with us!`}
+          {`Fique em forma e saudável conosco.`}
         </Text>
       </VStack>
       <TouchableOpacity>
