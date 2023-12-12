@@ -1,60 +1,74 @@
-import { ExcerciseCard } from "@/components/ExcerciseCard";
+import { ExerciseCard } from "@/components/ExerciseCard";
 import { Group } from "@/components/Group";
 import { HomeHeader } from "@/components/HomeHeader";
+import { ExerciseDTO } from "@/dtos/ExerciseDTO";
 import { AppNavigatorRoutesProps } from "@/routes/app.routes";
-import { useNavigation } from "@react-navigation/native";
-import { FlatList, HStack, Heading, Text, VStack } from "native-base";
-import { useState } from "react";
+import { api } from "@/services/api";
+import { AppError } from "@/utils/AppErros";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { FlatList, HStack, Heading, Text, VStack, useToast } from "native-base";
+import { useCallback, useEffect, useState } from "react";
 
 export function Home() {
-  const [groupSelected, setGroupSelected] = useState("costa");
+  const [groups, setGroups] = useState<string[]>([]);
+  const [exercises, setExercises] = useState<ExerciseDTO[]>([]);
+  const [groupSelected, setGroupSelected] = useState("");
 
-  const [groups, setGroups] = useState([
-    { name: "costa", isMember: true },
-    { name: "ombro", isMember: true },
-    { name: "bíceps", isMember: true },
-    { name: "treíceps", isMember: true },
-    { name: "outros", isMember: true },
-  ]);
-
-  const [exercises, setExercises] = useState([
-    {
-      name: "Remada unilateral asdf asdfas dfsa fsdaf sdafsda fsda fsdf sd",
-      series: 3,
-      repetitions: 12,
-    },
-    {
-      name: "Remada curvada",
-      series: 5,
-      repetitions: 15,
-    },
-    {
-      name: "Remada biceps",
-      series: 10,
-      repetitions: 20,
-    },
-    {
-      name: "Remada triceps",
-      series: 3,
-      repetitions: 12,
-    },
-    {
-      name: "Cadeira extensora",
-      series: 3,
-      repetitions: 12,
-    },
-    {
-      name: "Cadeira flexora",
-      series: 3,
-      repetitions: 12,
-    },
-  ]);
-
+  const toast = useToast();
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   function handleOpenExerciseDetails() {
     navigation.navigate("exercise");
   }
+
+  async function fetchGroups() {
+    try {
+      const response = await api.get("/groups");
+      setGroups(response.data);
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError
+        ? error.message
+        : "Não foi possivel carregar os grupos";
+
+      toast.show({
+        title,
+        placement: "top",
+        bgColor: "red.500",
+      });
+    }
+  }
+
+  async function fetchExercisesByGroup() {
+    try {
+      const response = await api.get(
+        `/exercises/bygroup/${groupSelected.toLowerCase()}`
+      );
+      setExercises(response.data);
+    } catch (error) {
+      const isAppError = error instanceof AppError;
+      const title = isAppError
+        ? error.message
+        : "Não foi possivel carregar os exercícios";
+
+      toast.show({
+        title,
+        placement: "top",
+        bgColor: "red.500",
+      });
+    }
+  }
+
+  useEffect(() => {
+    fetchGroups();
+    fetchExercisesByGroup();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchExercisesByGroup();
+    }, [groupSelected])
+  );
 
   return (
     <VStack flex={1}>
@@ -62,15 +76,14 @@ export function Home() {
 
       <FlatList
         data={groups}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item) => item}
         renderItem={({ item }) => (
           <Group
-            name={item.name}
+            name={item}
             isActive={
-              groupSelected.toLocaleUpperCase() ===
-              item.name.toLocaleUpperCase()
+              groupSelected.toLocaleUpperCase() === item.toLocaleUpperCase()
             }
-            onPress={() => setGroupSelected(item.name)}
+            onPress={() => setGroupSelected(item)}
           />
         )}
         horizontal
@@ -79,7 +92,6 @@ export function Home() {
         my={8}
         maxHeight={10}
         minHeight={10}
-
       />
 
       <VStack flex={1} px={6}>
@@ -94,23 +106,14 @@ export function Home() {
 
         <FlatList
           data={exercises}
-          keyExtractor={(item) => item.name}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <ExcerciseCard
-              name={item.name}
-              series={item.series}
-              repetitions={item.repetitions}
-              onPress={handleOpenExerciseDetails}
-            />
+            <ExerciseCard data={item} onPress={handleOpenExerciseDetails} />
           )}
           showsVerticalScrollIndicator={false}
-          _contentContainerStyle={{ pb: 10 }}
-          ListEmptyComponent={() => (
-            <Text color="gray.200" fontSize="lg">
-              Não há exercícios registrados ainda. {"\n"}
-              Vamos fazer exercícios hoje?
-            </Text>
-          )}
+          _contentContainerStyle={{
+            paddingBottom: 20,
+          }}
         />
       </VStack>
     </VStack>

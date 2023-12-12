@@ -13,15 +13,15 @@ export function HomeHeader() {
     <HStack bg="gray.600" pt={16} pb={5} px={8} alignItems="center">
       <UserPhoto
         size={16}
-        mr={4}
+        mr={2}
         source={user.avatar ? { uri: user.avatar } : avatarImg}
       />
-      <VStack flex={1} alignItems="center" justifyContent="center">
+      <VStack flex={1} alignItems="left" justifyContent="center">
         <Heading color="gray.100" fontSize="lg" fontFamily="heading">
-          {`Bem vindo, ${user.name}!`}
+          {`Olá, ${user.name}!`}
         </Heading>
-        <Text color="gray.200" fontSize="sm">
-          {`Fique em forma e saudável conosco.`}
+        <Text color="gray.200" fontSize="sm" >
+          {`Vamos começar a treinar hoje.`}
         </Text>
       </VStack>
       <TouchableOpacity>

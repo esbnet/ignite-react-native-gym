@@ -1,14 +1,14 @@
-import { UserDTO } from "@/dto/UserDTO";
+import { UserDTO } from "@/dtos/UserDTO";
 import { api } from "@/services/api";
 import {
-  storageAuthTokenGet,
-  storageAuthTokenRemove,
-  storageAuthTokenSave,
+    storageAuthTokenGet,
+    storageAuthTokenRemove,
+    storageAuthTokenSave,
 } from "@/storage/storageAuthToken";
 import {
-  storageUserGet,
-  storageUserRemove,
-  storageUserSave,
+    storageUserGet,
+    storageUserRemove,
+    storageUserSave,
 } from "@/storage/storageUser";
 import { createContext, useEffect, useState } from "react";
 
