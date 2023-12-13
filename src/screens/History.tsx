@@ -62,13 +62,7 @@ export function History() {
             </Heading>
           )}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <HistoryCard
-              title={item.name}
-              hour={item.hour}
-              exercises={["Puxada frontal"]}
-            />
-          )}
+          renderItem={({ item }) => <HistoryCard data={item} />}
           px={8}
           contentContainerStyle={
             exercises.length === 0 && { flex: 1, justifyContent: "center" }

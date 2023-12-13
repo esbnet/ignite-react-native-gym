@@ -2,6 +2,7 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { ScreenHeader } from "@/components/ScreenHeader";
 import { UserPhoto } from "@/components/UserPhoto";
+import { useAuth } from "@/hooks/useAuth";
 import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 import {
@@ -11,20 +12,39 @@ import {
   Skeleton,
   Text,
   VStack,
-  useToast
+  useToast,
 } from "native-base";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { TouchableOpacity } from "react-native";
 
 const AVATAR_URL = "https://github.com/esbnet.png";
 const IMAGE_SIZE = 33;
 const BG_INPUT = "gray.600";
 
+type FormDataProps = {
+  name: string;
+  email: string;
+  password: string;
+  old_password: string;
+  confirm_password: string;
+}
+
 export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
   const [userPhoto, setUserPhoto] = useState(AVATAR_URL);
 
-  const toast = useToast()
+  const toast = useToast();
+  const { user } = useAuth()
+  const { control, handleSubmit } = useForm<FormDataProps>({
+    defaultValues: {
+      name: user.name,
+      email: user.email,
+      password: user.email,
+      old_password: '',
+      confirm_password: '',
+    },
+  });
 
   async function handleUserPhotoSelect() {
     try {
@@ -44,17 +64,18 @@ export function Profile() {
       if (photoSelected.assets[0].uri) {
         const photoInfo = await FileSystem.getInfoAsync(
           photoSelected.assets[0].uri
-        )
+        );
 
-        if (photoInfo.exists && photoInfo.size && photoInfo.size / 1024 / 1024 > 5
+        if (
+          photoInfo.exists &&
+          photoInfo.size &&
+          photoInfo.size / 1024 / 1024 > 5
         ) {
-          return toast.show(
-            {
-              title: "Essa imagem é muito grande. Escolha uma de até 5MB",
-              placement: "top",
-              bgColor: "red.500",
-            }
-          );
+          return toast.show({
+            title: "Essa imagem é muito grande. Escolha uma de até 5MB",
+            placement: "top",
+            bgColor: "red.500",
+          });
         }
 
         setUserPhoto(photoSelected.assets[0].uri);
@@ -102,8 +123,34 @@ export function Profile() {
               Alterar foto
             </Text>
           </TouchableOpacity>
-          <Input placeholder="Nome" bg={BG_INPUT} />
-          <Input placeholder="esbnet@gmail.com" bg={BG_INPUT} isDisabled />
+
+          <Controller
+            control={control}
+            name="name"
+            render={({ field: { value, onChange } }) => (
+              <Input
+                bg={BG_INPUT}
+                placeholder="Nome"
+                value={value}
+                onChange={onChange}
+              />
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { value, onChange } }) => (
+              <Input
+                bg={BG_INPUT}
+                placeholder="E-mail"
+                keyboardType="email-address"
+                onChange={onChange}
+                value={value}
+                isDisabled
+              />
+            )}
+          />
 
           <Heading
             color="gray.200"
