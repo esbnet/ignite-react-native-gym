@@ -51,12 +51,11 @@ export default function SignUp() {
   const toast = useToast();
   const { signIn } = useAuth();
   
-
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignUpFormProps>({
+  } = useForm<FormData>({
     resolver: yupResolver(signUpSchema),
   });
 

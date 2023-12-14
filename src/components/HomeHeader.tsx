@@ -5,6 +5,7 @@ import { TouchableOpacity } from "react-native";
 import { UserPhoto } from "./UserPhoto";
 
 import avatarImg from "@/assets/userPhotoDefault.png";
+import { api } from "@/services/api";
 
 export function HomeHeader() {
   const { user, signOut } = useAuth();
@@ -14,13 +15,17 @@ export function HomeHeader() {
       <UserPhoto
         size={16}
         mr={2}
-        source={user.avatar ? { uri: user.avatar } : avatarImg}
+        source={
+          user.avatar
+            ? { uri: `${api.defaults.baseURL}/avatar/${user.avatar}` }
+            : avatarImg
+        }
       />
       <VStack flex={1} alignItems="left" justifyContent="center">
         <Heading color="gray.100" fontSize="lg" fontFamily="heading">
           {`Olá, ${user.name}!`}
         </Heading>
-        <Text color="gray.200" fontSize="sm" >
+        <Text color="gray.200" fontSize="sm">
           {`Vamos começar a treinar hoje.`}
         </Text>
       </VStack>
