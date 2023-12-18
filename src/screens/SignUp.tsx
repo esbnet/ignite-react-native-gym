@@ -49,7 +49,7 @@ type FormData = yup.InferType<typeof signUpSchema>;
 export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
-  const { signIn } = useAuth();
+  const { singIn } = useAuth();
   
   const {
     control,
@@ -69,7 +69,7 @@ export default function SignUp() {
     try {
       setIsLoading(true);
       await api.post("/users", { name, email, password });
-      await signIn(email, password);
+      await singIn(email, password);
       
     } catch (error) {
       setIsLoading(false);

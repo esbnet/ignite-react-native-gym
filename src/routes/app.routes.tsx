@@ -1,7 +1,7 @@
 import { Platform } from "react-native";
 
 import { History } from "@/screens/History";
-import { Home } from "@/screens/Home";
+import Home from "@/screens/Home";
 import { Profile } from "@/screens/Profile";
 
 import HistorySvg from "@/assets/history.svg";

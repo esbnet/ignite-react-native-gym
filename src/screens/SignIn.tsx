@@ -1,144 +1,126 @@
-import LogoSvg from "@/assets/logo.svg";
+import { useNavigation } from "@react-navigation/native";
+import { Center, Heading, Image, ScrollView, Text, VStack, useToast } from "native-base";
+import { Controller, useForm } from 'react-hook-form';
+
+import { useAuth } from '@/hooks/useAuth';
+import { AuthNavigatorRoutesProps } from '@/routes/auth.routes';
+
+import BackgroundImg from '@/assets/background.png';
+import LogoSvg from '@/assets/logo.svg';
+
+import { AppError } from '@/utils/AppErros';
+
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
-import { useAuth } from "@/hooks/useAuth";
-import { AuthNavigatorRoutesProps } from "@/routes/auth.routes";
-import { AppError } from "@/utils/AppErros";
-import { useNavigation } from "@react-navigation/native";
-import {
-  Center,
-  Heading,
-  Image,
-  ScrollView,
-  Text,
-  VStack,
-  useToast,
-} from "native-base";
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import BackgroundImage from "../assets/background.png";
+import { useState } from 'react';
 
 type FormData = {
   email: string;
   password: string;
-};
+}
 
 export default function SignIn() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { signIn } = useAuth();
-  const { navigate } = useNavigation<AuthNavigatorRoutesProps>();
-  const toast = useToast();
+  const { singIn } = useAuth();
+  const navigation = useNavigation<AuthNavigatorRoutesProps>();
+  const toas = useToast();
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
+  const { control, handleSubmit, formState: { errors } } = useForm<FormData>()
 
   function handleNewAccount() {
-    navigate("SignUp");
+    navigation.navigate("signUp");
   }
 
   async function handleSignIn({ email, password }: FormData) {
     try {
       setIsLoading(true);
-      await signIn(email, password);
-      navigate("Home", );
+      await singIn(email, password);
+
     } catch (error) {
       const isAppError = error instanceof AppError;
-
-      const title = isAppError
-        ? error.message
-        : "Não foi possível entrar. Tente novamente mais tarde.";
-
-      toast.show({
+ 
+      const title =  isAppError ? error.message : 'Não foi possível entrar. Tente novamente mais tarde.'
+    
+      toas.show({
         title,
-        placement: "top",
-        bgColor: "red.500",
-      });
+        placement: 'top',
+        bgColor: 'red.500'
+      })
       setIsLoading(false);
     }
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      showsVerticalScrollIndicator={false}
-      bg={"gray.700"}
-      backgroundColor={"gray.700"}
-    >
-      <VStack flex={1} px={8} pb={16}>
-        <Image
-          source={BackgroundImage}
-          defaultSource={BackgroundImage}
-          alt="Pessoas andando em uma bicicleta ergonomica"
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+        <VStack flex={1} px={10} pb={16}>
+        <Image 
+          source={BackgroundImg}
+          defaultSource={BackgroundImg}
+          alt="Pessoas treinando"
           resizeMode="contain"
           position="absolute"
         />
 
         <Center my={24}>
           <LogoSvg />
+
           <Text color="gray.100" fontSize="sm">
-            Treine sua mente e o seu corpo
+            Treine sua mente e o seu corpo.
           </Text>
         </Center>
+
         <Center>
-          <Heading fontFamily="heading" color="gray.100" fontSize="xl" mb={6}>
-            Acesse sua conta
+          <Heading color="gray.100" fontSize="xl" mb={6} fontFamily="heading">
+            Acesse a conta
           </Heading>
 
-          <Controller
+          <Controller 
             control={control}
             name="email"
-            rules={{
-              required: "E-mail obrigatório",
-            }}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                placeholder="E-mail"
+            rules={{ required: 'Informe o e-mail' }}
+            render={({ field: { onChange } }) => (
+              <Input 
+                placeholder="E-mail" 
                 keyboardType="email-address"
                 autoCapitalize="none"
-                errorMessage={errors.email?.message}
                 onChangeText={onChange}
-                value={value}
+                errorMessage={errors.email?.message}
+              />
+            )}
+          />
+          
+          <Controller 
+            control={control}
+            name="password"
+            rules={{ required: 'Informe a senha' }}
+            render={({ field: { onChange } }) => (
+              <Input 
+                placeholder="Senha" 
+                secureTextEntry
+                onChangeText={onChange}
+                errorMessage={errors.password?.message}
+                onSubmitEditing={handleSubmit(handleSignIn)}
+                returnKeyType="send"
               />
             )}
           />
 
-          <Controller
-            control={control}
-            name="password"
-            rules={{
-              required: "Senha obrigatória",
-            }}
-            render={({ field: { onChange, value } }) => (
-              <Input
-                placeholder="Senha"
-                secureTextEntry
-                autoCapitalize="none"
-                errorMessage={errors.password?.message}
-                onChangeText={onChange}
-                value={value}
-                returnKeyType="send"
-                onSubmitEditing={handleSubmit(handleSignIn)}
-              />
-            )}
-          />
-          <Button
-            title="Acessar"
-            onPress={handleSubmit(handleSignIn)}
+          <Button 
+            title="Acessar" 
+            onPress={handleSubmit(handleSignIn)} 
             isLoading={isLoading}
           />
         </Center>
 
         <Center mt={24}>
-          <Text color="gray.100" mb={3} fontFamily={"body"}>
+          <Text color="gray.100" fontSize="sm" mb={3} fontFamily="body">
             Ainda não tem acesso?
           </Text>
-          <Button
-            title="Criar conta"
-            variant={"outline"}
+
+          <Button 
+            title="Criar Conta" 
+            variant="outline"
             onPress={handleNewAccount}
           />
         </Center>

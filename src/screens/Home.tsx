@@ -10,7 +10,7 @@ import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { FlatList, HStack, Heading, Text, VStack, useToast } from "native-base";
 import { useCallback, useEffect, useState } from "react";
 
-export function Home() {
+export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [groups, setGroups] = useState<string[]>([]);
   const [exercises, setExercises] = useState<ExerciseDTO[]>([]);
