@@ -68,7 +68,9 @@ export default function SignUp() {
   async function handleSignUp({ name, email, password }: SignUpFormProps) {
     try {
       setIsLoading(true);
+      
       await api.post("/users", { name, email, password });
+      
       await singIn(email, password);
       
     } catch (error) {

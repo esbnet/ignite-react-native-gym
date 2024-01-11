@@ -109,8 +109,6 @@ export function Profile() {
           type: `${photoSelected.assets[0].type}/${fileExtension}`,
         } as any;
 
-        console.log(photoFile);
-
         const userPhotoUploadForm = new FormData();
         userPhotoUploadForm.append("avatar", photoFile);
 

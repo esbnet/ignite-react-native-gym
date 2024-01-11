@@ -10,15 +10,15 @@ import { AppError } from "@/utils/AppErros";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
-  Box,
-  HStack,
-  Heading,
-  Icon,
-  Image,
-  ScrollView,
-  Text,
-  VStack,
-  useToast,
+    Box,
+    HStack,
+    Heading,
+    Icon,
+    Image,
+    ScrollView,
+    Text,
+    VStack,
+    useToast,
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
@@ -49,7 +49,6 @@ export function Exercise() {
       const response = await api.get(`/exercises/${exerciseId}`);
       const data = await response.data;
       setExercise(data);
-      console.log(data);
     } catch (error) {
       const isAppError = error instanceof AppError;
       const title = isAppError

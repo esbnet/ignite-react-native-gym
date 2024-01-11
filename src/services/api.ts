@@ -14,7 +14,7 @@ type APIInstanceProps = AxiosInstance & {
 }
 
 const api = axios.create({
-  baseURL: 'http://192.168.0.4:3333',
+  baseURL: 'http://192.168.0.3:3333',
 }) as APIInstanceProps;
 
 let failedQueued: Array<PromiseType> = [];
@@ -65,8 +65,6 @@ api.registerInterceptTokenManager = singOut => {
             failedQueued.forEach(request => {
               request.onSuccess(data.token);
             });
-
-            console.log("TOKEN ATUALIZADO");
 
             resolve(api(originalRequestConfig));
           } catch (error: any) {
