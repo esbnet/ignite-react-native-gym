@@ -25,12 +25,17 @@ Aplicativo para acompanhamento e controle de exercícios físicos. Permite o cad
 
 ## Instalação e Execução
 
-- Instalar e executat a API - [seguir orientação na documentação do git](https://github.com/esbnet/ignitegym-api)
-- Clonar o projeto do APP
+1. Instalar e executat a API - [seguir orientação na documentação do git](https://github.com/esbnet/ignitegym-api)
+2. Clonar o projeto do APP
   `git clone https://github.com/esbnet/ignite-react-native-gym.git `
-- Instalar depedências
+3. Instalar depedências
   `npm install`
-- Todar o aplicativo
+4. Altrar a linha 17 do arquivo gym/app/src/services/api.ts
+  mudar de: `baseURL: 'http://192.168.0.3:3333',`
+  para: `baseURL: 'http://[IP do servidor onde está rodando a API]:3333',`
+5. Rodar o aplicativo
+  `npm run android`
+  
 
 ### Scripts
 
